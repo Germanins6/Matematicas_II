@@ -1,8 +1,8 @@
 %%Vector b,  Independent term
-b = [4 6 1]';
+b = [1 0 1]';
 
 %%Matrix A, Coefficients matrix
-A = [ 0 2 1 ; 2 -3 4; 3 -1 5];
+A = [-1 3 1 -4; 2 -6 -2 8; 1 1 1 1];
 
 %%Calling function
 %%[At, bt] = ownTriangulation(A,b);

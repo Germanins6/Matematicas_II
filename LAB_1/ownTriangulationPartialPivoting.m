@@ -18,23 +18,31 @@ MSize = length(b);
 %%Expanded matrix
 Ma = [A b];
 
+flag = 0;
 
 %%Iterating through matrix
 for k = 1:MSize-1
     
     %%Checking if our pivot equals 0
     if Ma(k,k) == 0
+        
         for row = k+1:MSize
+            %%Checking if next pivot equals 0
             if Ma(row,k) ~= 0
+                
+                %%If not we change row's
                Ma([k row],:) = Ma([row k],:);
                
             end
             
         end
-        
-          
-    else
-        
+    end 
+    
+    %%Checking if main diagonal equals 0
+    if Ma(k,k) == 0
+        flag = -1;
+    end
+    
     for i = k+1:MSize
         
         %%Getting pivot to work later
@@ -43,11 +51,15 @@ for k = 1:MSize-1
         %%Getting each value in row
         Ma(i,k:MSize+1) = Ma(i,k:MSize+1)-pivot*Ma(k,k:MSize+1);
     end
-    
-   end
+  
+   
+end
+
+
+if Ma(end,end-1) == 0
+    flag = -1;
 end
 
 At = Ma(1:MSize, 1:MSize);
 bt = Ma(:, end);
-flag = 0;
 end
