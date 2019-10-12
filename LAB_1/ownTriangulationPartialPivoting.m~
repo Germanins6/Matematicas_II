@@ -24,10 +24,9 @@ for k = 1:MSize-1
     
     %%Checking if our pivot equals 0
     if Ma(k,k) == 0
-        for row = k+1:MSize
+        for row = k+1:Msize
             if Ma(row,k) ~= 0
-               Ma([k row],:) = Ma([row k],:);
-               
+                Aux = Ma(k;
             end
             
         end
@@ -49,5 +48,5 @@ end
 
 At = Ma(1:MSize, 1:MSize);
 bt = Ma(:, end);
-flag = 0;
+
 end
