@@ -24,11 +24,11 @@ flag = 0;
 for k = 1:MSize-1
     
     %%Checking if our pivot equals 0
-    if Ma(k,k) == 0
+   
         
         for row = k+1:MSize
             %%Checking if next pivot equals 0
-            if Ma(row,k) ~= 0
+            if abs(Ma(row,k)) > Ma(k,k)
                 
                 %%If not we change row's
                Ma([k row],:) = Ma([row k],:);
@@ -36,7 +36,7 @@ for k = 1:MSize-1
             end
             
         end
-    end 
+     
     
     %%Checking if main diagonal equals 0
     if Ma(k,k) == 0
