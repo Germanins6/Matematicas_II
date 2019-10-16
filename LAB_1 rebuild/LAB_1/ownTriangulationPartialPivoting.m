@@ -22,7 +22,7 @@ for i=1:1:MatrixSize-1
         
         for row = i+1:MatrixSize
             %%Checking if next pivot is bigger
-            if abs(Ma(row,i)) > Ma(i,i)
+            if abs(Ma(row,i)) > abs(Ma(i,i))
                 
                 %%If not we change row's
                Ma([i row],:) = Ma([row i],:);
@@ -32,8 +32,8 @@ for i=1:1:MatrixSize-1
         end
         if Ma(i,i) == 0
         flag = -1;
-        end
-    
+        
+        else
   pivot = Ma(i,i);
        
         for k = i:1:MatrixSize-1
@@ -44,7 +44,8 @@ for i=1:1:MatrixSize-1
         end
         end
        Ma(i+1:MatrixSize,i)=0;
-end
+        end
+end      
 if Ma(end,end-1) == 0
     flag = -1;
 end
