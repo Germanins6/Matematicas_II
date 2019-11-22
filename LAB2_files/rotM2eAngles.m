@@ -16,30 +16,26 @@ ResultTrace = trace(Rt)
 %%Getting pitch angle from Rotation Matrix
 pitch = 180 - asind(-R(3,1));
 
-%%We are going to use check to know if sin of pitch will be -1 or 1.
-%%special case
-check = sind(pitch);
 
-if check == 1
+%%Checking if R(3,1) equals 1 or -1
+%%pitch can be set to 0 in both cases
+if R(3,1) == -1
     
     pitch = 0;
-    roll = atan2d(R(3,2),R(3,3));
-    yaw = atan2d(R(2,1), R(1,1));
-    
-end
-
-if check == -1
+    roll = 90;
+    yaw = pitch + atan2d(R(1,2), R(1,3));
+elseif R(3,1) == 1
     
     pitch = 0;
-    roll = atan2d(R(3,2),R(3,3));
-    yaw = atan2d(R(2,1), R(1,1));
+    roll = -90;
+    yaw = -pitch + atan2d(-R(1,2), -R(1,3));
     
-end
+else
 
 %%If sin(pitch) arent equal -1 or 1 we will be doing next calculations.
 roll = atan2d(R(3,2)/cosd(pitch), R(3,3)/cosd(pitch));
 yaw = atan2d(R(2,1)/cosd(pitch), R(1,1)/cosd(pitch));
-
+end
 
 
 end
