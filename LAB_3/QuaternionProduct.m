@@ -22,7 +22,7 @@ function varargout = QuaternionProduct(varargin)
 
 % Edit the above text to modify the response to help QuaternionProduct
 
-% Last Modified by GUIDE v2.5 26-Nov-2019 18:06:01
+% Last Modified by GUIDE v2.5 26-Nov-2019 18:39:21
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
