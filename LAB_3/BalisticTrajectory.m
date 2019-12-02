@@ -136,15 +136,18 @@ y0 = str2double(get(handles.initY, 'String'));
 velocity = str2double(get(handles.velocityoutput, 'String'));
 angle = str2double(get(handles.angleoutput, 'String'));
 g = 9.81;
-x = zeros(1,10);
-y = zeros(1,10);
+
+%%Trajectory time
+t = (2*velocity*sind(angle))/g;
+
 %%Calculate trajectory
-for t = 1:10
-    x(t) = x0 * 2 * velocity * cosd(angle);
-    y(t) = y0 + 2*velocity*sind(angle)-0.5*9.81*t^2;
-    
-end
-   plot(x, y); 
+ 
+ for i = 1:t
+ x(i) = x0 * 2 * velocity * cosd(angle);
+ y(i) = y0 + 2*velocity*sind(angle)-0.5*9.81*i^2;
+ plot(x, y)
+ end
+
  %%Calculate X and Y max in trajectory
  Xmax = ((velocity^2)*sind(angle*2)/g);
  Ymax = ((velocity^2)*sind(angle)^2)/(2*g);
