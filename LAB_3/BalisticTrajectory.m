@@ -133,19 +133,21 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 %%Get initial values
 x0 = str2double(get(handles.initX, 'String'));
 y0 = str2double(get(handles.initY, 'String'));
-velocity = set(handles.velocityoutput, 'String');
-angle = set(handles.angleoutput, 'String');
-
+velocity = str2double(get(handles.velocityoutput, 'String'));
+angle = str2double(get(handles.angleoutput, 'String'));
+g = 9.81;
+x = zeros(1,10);
+y = zeros(1,10);
 %%Calculate trajectory
-for t = 0:10
-    x = x0 * 2 * velocity * cosd(angle);
-    y = y0 + 2*velocity*sind(angle)-0.5*9.81*t^2;
-    plot(x, y);
-end
+for t = 1:10
+    x(t) = x0 * 2 * velocity * cosd(angle);
+    y(t) = y0 + 2*velocity*sind(angle)-0.5*9.81*t^2;
     
+end
+   plot(x, y); 
  %%Calculate X and Y max in trajectory
- Xmax = ((velocity^2)*sind(angle*2)/9.81);
- Ymax = ((velocity^2)*sind(angle)^2)/(2*9.81);
+ Xmax = ((velocity^2)*sind(angle*2)/g);
+ Ymax = ((velocity^2)*sind(angle)^2)/(2*g);
 
 %%Set total X and Max Y
 set(handles.range, 'String', num2str(Xmax));
