@@ -137,12 +137,16 @@ velocity = str2double(get(handles.velocityoutput, 'String'))
 angle = str2double(get(handles.angleoutput, 'String'))
 g = 9.81;
 it = 1
+dt = 0.01
 %%Calculate trajectory
-for t = 0:0.2:2
+for t = 0:dt:1000
    
     x(it) = x0 + t * velocity * cosd(angle);
     y(it) = y0 + t*velocity*sind(angle)-0.5*9.81*t^2;
-    it = it+1
+    it = it+1;
+    if((y0 + (t+dt)*velocity*sind(angle)-0.5*9.81*(t+dt)^2) < 0)
+        break;
+    end
 end
    plot(x, y); 
  %%Calculate X and Y max in trajectory
@@ -153,7 +157,7 @@ end
 
 %%Set total X and Max Y
 set(handles.range, 'String', num2str(Xmax));
-set(handles.height, 'String',  num2str(Ymax));
+set(handles.height, 'String', num2str(Ymax));
 
 
 function initX_Callback(hObject, eventdata, handles)
