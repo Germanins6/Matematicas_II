@@ -94,6 +94,13 @@ u3 = str2num(get(handles.u3, 'String'));
 
 set(handles.angle, 'String', num2str(angle));
 
+
+plot3([1 0 0],[0 0 0],[0 0 0]);
+hold on
+plot3([0 0 0],[0 1 0],[0 0 0]);
+plot3([0 0 0],[0 0 0],[0 0 1]);
+view([-30 13.2]);
+hold off
 % --- Executes during object creation, after setting all properties.
 function angleslide_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to angleslide (see GCBO)
