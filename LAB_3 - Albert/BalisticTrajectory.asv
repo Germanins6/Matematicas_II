@@ -142,11 +142,11 @@ velocity = str2double(get(handles.velocityoutput, 'String'));
 angle = str2double(get(handles.angleoutput, 'String'));
 
 %Total time, Max range and Max height
+time = (2*velocity*sind(angle))/g
 
+t*velocity*sind(angle) - 0.5*g*t^2 = -y0;
 
-time = (velocity/g)*(sind(angle)+sqrt(sind(angle)^2+2*((g*y0)/velocity^2)))
-
-Xmax= x0+velocity*cosd(angle)*time
+Xmax= x0+velocity*cosd(angle)*time;
 Ymax= y0+((velocity*sind(angle))^2)/(2*g);
 
 %%Set total X and Max Y
@@ -163,8 +163,8 @@ for t = 0:dt:time
     y(it) = y0 + t*velocity*sind(angle)-0.5*g*t^2;
     it = it+1;
 end
-[val, Index] = max(y)
-midrange = x(Index)
+
+midrange = (x0 + Xmax)/2;
 plot(x, y , '-', midrange, Ymax, 'o');
 
 function initX_Callback(hObject, eventdata, handles)
