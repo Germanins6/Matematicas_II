@@ -8,35 +8,25 @@ function [At, bt]= ownTriangulation(A,b)
 % Outputs:
 %	At: Upper triangular matrix
 % 	bt: Modified independent term
-
-
-%%Getting Matrix or vector size to iterate later
-MSize = length(b);
-
-%%Expanded matrix
-Ma= [A b];
-
-
-%%Iterating through matrix
-for k = 1:MSize-1
-    
-    %%Checking if our pivot equals 0
-    if Ma(k,k) == 0
-        %%If Ma(1,1).. (2,2)..(n,n) (MAIN DIAGONAL) Any value equals 0 iterates next one
+MatrixSize = length(b);
+Ma = [A b];
+for i=1:1:MatrixSize-1
+    if Ma(i,i)==0
+        %%do nothing
     else
-        
-    for i = k+1:MSize
-        
-        %%Getting pivot to work later
-        pivot = Ma(i,k)/Ma(k,k);
-        
-        %%Getting each value in row
-        Ma(i,k:MSize+1) = Ma(i,k:MSize+1)-pivot*Ma(k,k:MSize+1);
+ 
+        pivot = Ma(i,i);
+        for k = i:1:MatrixSize-1
+        for j=i+1:1:MatrixSize+1
+      %calcular fila matriz
+     
+          Ma(k+1,j)=(pivot*Ma(k+1,j))-(Ma(i,j)*Ma(k+1,i));
+        end
+        end
+       Ma(i+1:MatrixSize,i)=0;
     end
-    
-   end
 end
-At = Ma(1:MSize, 1:MSize);
+At = Ma(1:MatrixSize, 1:MatrixSize);
 bt = Ma(:, end);
 
 end

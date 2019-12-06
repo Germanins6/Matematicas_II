@@ -83,23 +83,43 @@ function angleslide_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 angle = get(hObject, 'Value');
 
-u1 = str2num(get(handles.u1, 'String'));
-u2 = str2num(get(handles.u2, 'String'));
-u3 = str2num(get(handles.u3, 'String'));
+u(1) = str2num(get(handles.u1, 'String'))
+u(2) = str2num(get(handles.u2, 'String'))
+u(3) = str2num(get(handles.u3, 'String'))
 
-u1 = str2num(get(handles.u1, 'String'));
-u2 = str2num(get(handles.u2, 'String'));
-u3 = str2num(get(handles.u3, 'String'));
+v(1) = str2num(get(handles.v1, 'String'))
+v(2) = str2num(get(handles.v2, 'String'))
+v(3) = str2num(get(handles.v3, 'String'))
 
 
 set(handles.angle, 'String', num2str(angle));
+u = u';
+v = v';
+v = v/sqrt(v'*v)
+
+Ux = [0 u(3) -u(2); -u(3) 0 u(1); u(2) -u(1) 0]';
+Identity = eye(3);
+
+RotMat = Identity*cosd(angle) + (1-cosd(angle))*(u*u')+Ux*sind(angle);
+v = RotMat * v;
 
 
-plot3([1 0 0],[0 0 0],[0 0 0]);
+xVec = plot3([0 0 1],[0 0 0],[0 0 0]);
+xVec.LineWidth = 2;
+
+axis off
 hold on
-plot3([0 0 0],[0 1 0],[0 0 0]);
-plot3([0 0 0],[0 0 0],[0 0 1]);
-view([-30 13.2]);
+
+yVec = plot3([0 0 0],[0 0 1],[0 0 0]);
+yVec.LineWidth = 2;
+
+zVec = plot3([0 0 0],[0 0 0],[0 0 1]);
+zVec.LineWidth = 2;
+
+newVec = plot3([0 0 v(1)],[0 0 v(2)],[0 0 v(3)]);
+newVec.LineWidth = 2;
+view([135 45]);
+
 hold off
 % --- Executes during object creation, after setting all properties.
 function angleslide_CreateFcn(hObject, eventdata, handles)

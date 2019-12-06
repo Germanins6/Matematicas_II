@@ -130,38 +130,36 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%%Get initial values
+%Global values
+g = 9.81;
+dt = 0.01;
+it = 1;
+
+%%Get input initial values
 x0 = str2double(get(handles.initX, 'String'));
 y0 = str2double(get(handles.initY, 'String'));
-velocity = str2double(get(handles.velocityoutput, 'String'))
-angle = str2double(get(handles.angleoutput, 'String'))
-g = 9.81;
-it = 1;
-dt = 0.05;
-%%Calculate trajectory
-for t = 0:dt:100
-   
-    x(it) = x0 + t * velocity * cosd(angle);
-    y(it) = y0 + t*velocity*sind(angle)-0.5*9.81*t^2;
-    if((y(it)+ y0 + (t+dt)*velocity*sind(angle)-0.5*9.81*(t+dt)^2 )< 0)
-        break;
-    end
-    it = it+1;
-end
-  
- %%Calculate X and Y max in trajectory
- Xmax = max(x);
- Ymax = max(y);
- 
-  plot(x, y); 
-  ylim([0 Ymax+1])
-% Xmax = ((velocity^2)*sind(angle*2)/g);
-% Ymax = ((velocity^2)*sind(angle)^2)/(2*g);
+velocity = str2double(get(handles.velocityoutput, 'String'));
+angle = str2double(get(handles.angleoutput, 'String'));
+
+%Total time, Max range and Max height
+time = (velocity/g)*(sind(angle)+sqrt(sind(angle)^2+2*((g*y0)/velocity^2)));
+Xmax= x0+velocity*cosd(angle)*time;
+Ymax= y0+((velocity*sind(angle))^2)/(2*g);
 
 %%Set total X and Max Y
 set(handles.range, 'String', num2str(Xmax));
-set(handles.height, 'String',  num2str(Ymax));
-
+set(handles.height, 'String', num2str(Ymax));
+    
+%%Calculate trajectory
+for t = 0:dt:time
+   
+    x(it) = x0 + t * velocity * cosd(angle);
+    y(it) = y0 + t*velocity*sind(angle)-0.5*g*t^2;
+    it = it+1;
+end
+[val, Index] = max(y);
+midrange = x(Index);
+plot(x, y , '-', midrange, Ymax, 'o');
 
 function initX_Callback(hObject, eventdata, handles)
 % hObject    handle to initX (see GCBO)
