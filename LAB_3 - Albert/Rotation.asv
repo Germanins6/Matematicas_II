@@ -95,25 +95,18 @@ v(3) = str2num(get(handles.v3, 'String'))
 set(handles.angle, 'String', num2str(angle));
 u = u';
 v = v';
-v = v/sqrt(v'*v)
+u = u/sqrt(u'*u)
+Ux = [0 u(3) -u(2); -u(3) 0 u(1); u(2) -u(1) 0]'
+Identity = eye(3)
 
-Ux = [0 u(3) -u(2); -u(3) 0 u(1); u(2) -u(1) 0]';
-Identity = eye(3);
+RotMat = Identity*cosd(angle) + (1-cosd(angle))*(u*u')+Ux*sind(angle)
 
-RotMat = Identity*cosd(angle) + (1-cosd(angle))*(u*u')+Ux*sind(angle);
-v = RotMat * v;
 
-plot3([0 0 1],[0 0 0],[0 0 0]);
+plot3([1 0 0],[0 0 0],[0 0 0]);
 hold on
-plot3([0 0 0],[0 0 1],[0 0 0]);
+plot3([0 0 0],[0 1 0],[0 0 0]);
 plot3([0 0 0],[0 0 0],[0 0 1]);
-plot3([0 0 v(1)],[0 0 v(2)],[0 0 v(3)]);
-view([135 45]);
-title('3-D Vector Rotation')
-xlabel('x')
-ylabel('y')
-zlabel('z')
-
+view([-30 13.2]);
 hold off
 % --- Executes during object creation, after setting all properties.
 function angleslide_CreateFcn(hObject, eventdata, handles)
