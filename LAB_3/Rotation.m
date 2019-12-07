@@ -83,27 +83,35 @@ function angleslide_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 angle = get(hObject, 'Value');
 
-u(1) = str2num(get(handles.u1, 'String'))
-u(2) = str2num(get(handles.u2, 'String'))
-u(3) = str2num(get(handles.u3, 'String'))
+u(1) = str2num(get(handles.u1, 'String'));
+u(2) = str2num(get(handles.u2, 'String'));
+u(3) = str2num(get(handles.u3, 'String'));
 
-v(1) = str2num(get(handles.v1, 'String'))
-v(2) = str2num(get(handles.v2, 'String'))
-v(3) = str2num(get(handles.v3, 'String'))
+v(1) = str2num(get(handles.v1, 'String'));
+v(2) = str2num(get(handles.v2, 'String'));
+v(3) = str2num(get(handles.v3, 'String'));
 
 
 set(handles.angle, 'String', num2str(angle));
-u = u';
-v = v';
-v = v/sqrt(v'*v)
 
-Ux = [0 u(3) -u(2); -u(3) 0 u(1); u(2) -u(1) 0]';
-Identity = eye(3);
+%%Calculations
 
-RotMat = Identity*cosd(angle) + (1-cosd(angle))*(u*u')+Ux*sind(angle);
-v = RotMat * v;
+uNormalized = u/norm(u);
+
+%Quaternion V
+qU = [cosd(angle) sind(angle)*uNormalized]'
+qV = [0 v]'
+
+qUconj = zeros(1,4);
+qUconj(1) = qU(1);
+qUconj(2:4) = -qU(2:4);
+qUconj = qUconj';
 
 
+%Rotated vector
+Vrot = qU.*qV.*qUconj
+
+%%PlotSection
 xVec = plot3([0 0 1],[0 0 0],[0 0 0]);
 xVec.LineWidth = 2;
 
@@ -116,7 +124,7 @@ yVec.LineWidth = 2;
 zVec = plot3([0 0 0],[0 0 0],[0 0 1]);
 zVec.LineWidth = 2;
 
-newVec = plot3([0 0 v(1)],[0 0 v(2)],[0 0 v(3)]);
+newVec = plot3([0 0 Vrot(2)],[0 0 Vrot(3)],[0 0 Vrot(4)]);
 newVec.LineWidth = 2;
 view([135 45]);
 
