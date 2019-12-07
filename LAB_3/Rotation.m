@@ -98,17 +98,16 @@ set(handles.angle, 'String', num2str(angle));
 
 uNormalized = u/norm(u);
 
-%Quaternion V
+%Quaternions
 qU = [cosd(angle/2) sind(angle/2)*uNormalized]'
 qV = [0 v]'
-
-
 
 qUconj = zeros(1,4);
 qUconj(1) = qU(1);
 qUconj(2:4) = -qU(2:4);
 qUconj = qUconj'
 
+%first product
 q0 = qU(1);
 p0 = qV(1);
 q = [qU(2) qU(3) qU(4)];
@@ -124,9 +123,9 @@ p = [qUconj(2) qUconj(3) qUconj(4)];
 
 c = q0*p0-dot(q',p)
 cv = q0*p+p0*q+cross(q,p)
-%Rotated vector
 
-Vrot = [c cv(1) cv(2) cv(3)]';
+%Rotated vector
+Vrot = [cv(1) cv(2) cv(3)]';
 Vrot = Vrot/norm(Vrot);
 %%PlotSection
 xVec = plot3([0 0 1],[0 0 0],[0 0 0]);
@@ -141,9 +140,9 @@ yVec.LineWidth = 2;
 zVec = plot3([0 0 0],[0 0 0],[0 0 1]);
 zVec.LineWidth = 2;
 
-newVec = plot3([0 0 Vrot(2)],[0 0 Vrot(3)],[0 0 Vrot(4)]);
+newVec = plot3([0, Vrot(1)],[0, Vrot(2)],[0, Vrot(3)]);
 newVec.LineWidth = 2;
-view([135 45]);
+view([160 20]);
 
 hold off
 % --- Executes during object creation, after setting all properties.
